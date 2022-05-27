@@ -28,8 +28,8 @@ const ShiftHistory: React.FC = (props) => {
             <thead className="tbl-header">
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">StartTime</th>
-                <th scope="col">EndTime</th>
+                <th scope="col">Start_Time</th>
+                <th scope="col">End_Time</th>
                 <th scope="col">Location</th>
               </tr>
             </thead>
@@ -37,8 +37,8 @@ const ShiftHistory: React.FC = (props) => {
               {shifts.map((shift, i) => (
                 <tr key={i}>
                   <th scope="row">{i}</th>
-                  <td>{(moment.utc(shift.startTime).format('YYYY-MM-DD H:mm')).toString()}</td>
-                  <td>{(moment.utc(shift.endTime).format('YYYY-MM-DD H:mm')).toString()}</td>
+                  <td>{(moment.utc(shift.startTime).format('YYYY-MM-DD H:mm:ss')).toString()}</td>
+                  <td>{(moment.utc(shift.endTime).format('YYYY-MM-DD H:mm:ss')).toString()}</td>
                   <td>{shift.location}</td>
                 </tr>
               ))}

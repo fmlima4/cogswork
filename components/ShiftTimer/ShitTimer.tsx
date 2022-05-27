@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import ShiftHistory from '../ShiftHistory/ShiftHistory'
 import  { Container } from './styles.js';
 
 const ShitTimer = () => {
 
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [location, setLocation] = useState('');
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const [seed, setSeed] = useState(1);
+  const reset = () => {
+      setSeed(Math.random());
+  }
 
   function toggle() {
     setIsActive(!isActive);
@@ -22,6 +28,7 @@ const ShitTimer = () => {
     if (isActive) {
       interval = setInterval(() => {
         setSeconds(seconds => seconds + 1);
+        setEndTime(new Date())
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
@@ -30,20 +37,21 @@ const ShitTimer = () => {
   }, [isActive, seconds]);
 
   function stop() {
-    setSeconds(0);
-    setIsActive(false);
-    setEndTime(new Date())
-    save();
+    if(location == '') {
+      alert('Please inform a location')
+    } else {
+      setSeconds(0);
+      setIsActive(false);
+      save();
+    }
   }
 
   async function save(){
-    alert(startTime)
-    alert(endTime)
 
     var data = {
       startTime: startTime,
       endTime: endTime,
-      location: 'teste save button',
+      location: location,
       userId: '9fe993e7-a56a-4ad0-8659-dc6a9b5924a9'
     }
 
@@ -56,6 +64,7 @@ const ShitTimer = () => {
     })
 
     console.log(response);
+    setSeed(seconds)
   }
 
   return (
@@ -65,6 +74,8 @@ const ShitTimer = () => {
         {seconds}s
       </div>
       <div className="row">
+        <label htmlFor="location">Location: </label>
+        <input type="text" id="location" className="location" value={location} onChange={(e) => setLocation(e.target.value)} />
         <button className={`button button-primary button-primary-${isActive ? 'active' : 'inactive'}`} onClick={toggle}>
           {isActive ? 'Pause' : 'Start'}
         </button>
@@ -73,6 +84,7 @@ const ShitTimer = () => {
         </button>
       </div>
     </div>
+    <ShiftHistory key={seed}/>
     </Container>
   );
 };

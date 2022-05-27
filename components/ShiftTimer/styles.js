@@ -20,6 +20,10 @@ export const Container = styled.div`
     font-size: 2.5rem;
     padding: 1rem;
   }
+
+  .location {
+    color: black;
+  }
   
   .button {
     padding: .6rem 1.5rem;
