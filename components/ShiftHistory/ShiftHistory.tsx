@@ -22,17 +22,17 @@ const ShiftHistory: React.FC = (props) => {
 
     return (
         <Container>
+          <h1>Your Shift History:</h1>
           <table>
-            <caption>yout shift history</caption>
-            <thead>
+            <thead className="tbl-header">
               <tr>
-                <th scope="col"></th>
+                <th scope="col">ID</th>
                 <th scope="col">StartTime</th>
-                <th scope="col">EndtTime</th>
+                <th scope="col">EndTime</th>
                 <th scope="col">Location</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody  className="tbl-content">
               {shifts.map((shift, i) => (
                 <tr key={i}>
                   <th scope="row">{i}</th>

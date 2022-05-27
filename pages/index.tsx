@@ -3,6 +3,7 @@ import Head from 'next/head'
 import AuthBanner from '../components/AuthBanner'
 import ShiftHistory from '../components/ShiftHistory/ShiftHistory'
 import ShitTimer from '../components/ShiftTimer/ShitTimer'
+import  { Container } from './styles.js';
 
 
 const Home: NextPage = () => {
@@ -15,15 +16,17 @@ const Home: NextPage = () => {
       </Head>
 
       <main className='p-10'>
-        <h1 className='text-2xl font-bold'>
-          Shift App
-        </h1>
-
-        <p className='my-3'>
-          Track your shifts.
-        </p>
-
-        <AuthBanner />
+        <Container>
+          <div className='top-banner'>
+            <h1 className='text-2xl font-bold'>
+              Shift App
+              <p className='my-3'>
+                Track your shifts.
+              </p>
+            </h1>
+            <AuthBanner />
+          </div>
+        </Container>
         <ShitTimer />
         <ShiftHistory />
       </main>

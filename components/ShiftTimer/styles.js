@@ -12,6 +12,8 @@ export const Container = styled.div`
     justify-content: center;
     font-size: calc(8px + 2vmin);
     color: white;
+    padding: 15px; 
+    border-radius: 15px;
   }
   
   .time {
