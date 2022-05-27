@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import  { Container } from './styles.js';
+import moment from 'moment';
 
 const ShiftHistory: React.FC = (props) => {
     const [shifts, setShifts] = useState([]);
@@ -36,8 +37,8 @@ const ShiftHistory: React.FC = (props) => {
               {shifts.map((shift, i) => (
                 <tr key={i}>
                   <th scope="row">{i}</th>
-                  <td>{shift.startTime}</td>
-                  <td>{shift.endTime}</td>
+                  <td>{(moment.utc(shift.startTime).format('YYYY-MM-DD H:mm')).toString()}</td>
+                  <td>{(moment.utc(shift.endTime).format('YYYY-MM-DD H:mm')).toString()}</td>
                   <td>{shift.location}</td>
                 </tr>
               ))}
