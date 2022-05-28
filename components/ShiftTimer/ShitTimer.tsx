@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import ShiftHistory from '../ShiftHistory/ShiftHistory'
 import  { Container } from './styles.js';
 
 const ShitTimer = () => {
-  const { data: session } = useSession()
+  const [userId, setUserId] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [location, setLocation] = useState('');
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [seed, setSeed] = useState(1);
-  const reset = () => {
-      setSeed(Math.random());
-  }
+
+  useEffect(() => {
+    async function loadUser() {
+      const session = await getSession()
+      console.log(session)
+      setUserId(session ? session.user.id : '')
+    }
+    loadUser();
+  }, [userId]);
 
   function toggle() {
     setIsActive(!isActive);
@@ -38,14 +44,21 @@ const ShitTimer = () => {
   }, [isActive, seconds]);
 
   function stop() {
+
+    if(seconds == 0){
+      alert('yout have not started a new shift')
+      return
+    }
+
     if(location == '') {
       alert('Please inform a location')
-    } else {
-      setLocation('');
-      setSeconds(0);
-      setIsActive(false);
-      save();
-    }
+      return
+    } 
+
+    setLocation('');
+    setSeconds(0);
+    setIsActive(false);
+    save();
   }
 
   async function save(){
@@ -54,7 +67,7 @@ const ShitTimer = () => {
       startTime: startTime,
       endTime: endTime,
       location: location,
-      userId: session.user?.id
+      userId: userId
     }
 
     const response = await fetch(`http://localhost:3000/api/ShiftHistory/SaveShiftHistory`, {
@@ -70,23 +83,23 @@ const ShitTimer = () => {
   }
 
   return (
-    <Container>
-    <div className="app">
-      <div className="time">
-        {seconds}s
+    <Container data-testid="timer">
+      <div className="app">
+        <div className="time" data-testid="time">
+          {seconds}s
+        </div>
+        <div className="row">
+          <label htmlFor="location">Location: </label>
+          <input type="text" id="location" className="location" value={location} onChange={(e) => setLocation(e.target.value)} />
+          <button data-testid="startButton" className={`button button-primary button-primary-${isActive ? 'active' : 'inactive'}`} onClick={toggle}>
+            {isActive ? 'Pause shift' : 'Start shift'}
+          </button>
+          <button className="button save" onClick={stop}>
+            End Shift
+          </button>
+        </div>
       </div>
-      <div className="row">
-        <label htmlFor="location">Location: </label>
-        <input type="text" id="location" className="location" value={location} onChange={(e) => setLocation(e.target.value)} />
-        <button className={`button button-primary button-primary-${isActive ? 'active' : 'inactive'}`} onClick={toggle}>
-          {isActive ? 'Pause shift' : 'Start shift'}
-        </button>
-        <button className="button save" onClick={stop}>
-          End Shift
-        </button>
-      </div>
-    </div>
-    <ShiftHistory key={seed}/>
+      <ShiftHistory key={seed}/>
     </Container>
   );
 };

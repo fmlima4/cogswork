@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import  { Container } from './styles.js';
 import moment from 'moment';
 
 const ShiftHistory: React.FC = (props) => {
-  const { data: session } = useSession()
-  const userId = session ? session.user?.id : ''
   const [shifts, setShifts] = useState([]);
-  
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    async function loadUser() {
+      const session = await getSession()
+      console.log(session)
+      setUserId(session ? session.user.id : '')
+    }
+    loadUser();
+  }, [userId]);
+
   useEffect(() => {
     async function loadShifts() {
       const response = await fetch(`http://localhost:3000/api/ShiftHistory/ShiftHistoryByUser?userId=${userId}`)
+      console.log(response)
       const data = await response.json()
         
       const shiftHistoryArray = [...shifts];
@@ -26,7 +35,7 @@ const ShiftHistory: React.FC = (props) => {
     return (
         <Container>
           <h1>Your Shift History:</h1>
-          <table>
+          <table data-testid="table">
             <thead className="tbl-header">
               <tr>
                 <th scope="col">ID</th>
