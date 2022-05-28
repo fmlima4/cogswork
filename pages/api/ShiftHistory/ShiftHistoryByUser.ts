@@ -6,7 +6,6 @@ import { prisma } from '../../../src/prisma'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await prisma.$connect()
     const { userId } = req.query
-    console.log(userId)
 
     if (userId === undefined){
         res.status(400).json({message: 'Invalid user'})
