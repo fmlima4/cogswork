@@ -12,6 +12,7 @@ const ShitTimer = () => {
   const [isActive, setIsActive] = useState(false);
   const [seed, setSeed] = useState(1);
 
+  //load user
   useEffect(() => {
     async function loadUser() {
       const session = await getSession()
@@ -21,10 +22,12 @@ const ShitTimer = () => {
     loadUser();
   }, [userId]);
 
+  //responsable for start or end the counter 
   function toggle() {
     setIsActive(!isActive);
   }
 
+  // this is my way to save the moment when user started the timer and track how long it took
   useEffect(() => {
     let interval: number = 0;
     
@@ -43,6 +46,7 @@ const ShitTimer = () => {
     return () => clearInterval(interval);
   }, [isActive, seconds]);
 
+  //here i check if is evething ok to stop the counter and save a new shift
   function stop() {
 
     if(seconds == 0){
@@ -61,6 +65,7 @@ const ShitTimer = () => {
     save();
   }
 
+  //here i send the data to the server
   async function save(){
 
     var data = {
