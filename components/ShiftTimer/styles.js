@@ -22,7 +22,9 @@ export const Container = styled.div`
   }
 
   .location {
+    margin: .4rem;
     color: black;
+    border-radius: 3px;
   }
   
   .button {

@@ -12,7 +12,6 @@ const ShiftHistory: React.FC = (props) => {
           
         const shiftHistoryArray = [...shifts];
   
-        // eslint-disable-next-line array-callback-return
         data.map((shift: any) => shiftHistoryArray.push(shift));
   
         setShifts(shiftHistoryArray);
@@ -30,6 +29,7 @@ const ShiftHistory: React.FC = (props) => {
                 <th scope="col">ID</th>
                 <th scope="col">Start_Time</th>
                 <th scope="col">End_Time</th>
+                <th scope="col">Duration</th>
                 <th scope="col">Location</th>
               </tr>
             </thead>
@@ -39,6 +39,7 @@ const ShiftHistory: React.FC = (props) => {
                   <th scope="row">{i}</th>
                   <td>{(moment.utc(shift.startTime).format('YYYY-MM-DD H:mm:ss')).toString()}</td>
                   <td>{(moment.utc(shift.endTime).format('YYYY-MM-DD H:mm:ss')).toString()}</td>
+                  <td></td>
                   <td>{shift.location}</td>
                 </tr>
               ))}

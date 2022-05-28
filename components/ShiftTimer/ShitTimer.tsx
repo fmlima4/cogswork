@@ -77,10 +77,10 @@ const ShitTimer = () => {
         <label htmlFor="location">Location: </label>
         <input type="text" id="location" className="location" value={location} onChange={(e) => setLocation(e.target.value)} />
         <button className={`button button-primary button-primary-${isActive ? 'active' : 'inactive'}`} onClick={toggle}>
-          {isActive ? 'Pause' : 'Start'}
+          {isActive ? 'Pause shift' : 'Start shift'}
         </button>
         <button className="button save" onClick={stop}>
-          Save
+          End Shift
         </button>
       </div>
     </div>
