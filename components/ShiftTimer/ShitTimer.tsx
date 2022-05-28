@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'
 import ShiftHistory from '../ShiftHistory/ShiftHistory'
 import  { Container } from './styles.js';
 
 const ShitTimer = () => {
-
+  const { data: session } = useSession()
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [location, setLocation] = useState('');
@@ -40,6 +41,7 @@ const ShitTimer = () => {
     if(location == '') {
       alert('Please inform a location')
     } else {
+      setLocation('');
       setSeconds(0);
       setIsActive(false);
       save();
@@ -52,7 +54,7 @@ const ShitTimer = () => {
       startTime: startTime,
       endTime: endTime,
       location: location,
-      userId: '9fe993e7-a56a-4ad0-8659-dc6a9b5924a9'
+      userId: session.user?.id
     }
 
     const response = await fetch(`http://localhost:3000/api/ShiftHistory/SaveShiftHistory`, {

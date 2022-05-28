@@ -5,9 +5,16 @@ import { prisma } from '../../../src/prisma'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await prisma.$connect()
+    const { userId } = req.query
+    console.log(userId)
+
+    if (userId === undefined){
+        res.status(400).json({message: 'Invalid user'})
+    }
+
     const shifts = await prisma.shifts.findMany({ 
         where: {
-            userId:  "9fe993e7-a56a-4ad0-8659-dc6a9b5924a9" ,
+            userId:  userId,
         } 
     })
     const data = shifts.map(shift => ({

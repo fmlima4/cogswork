@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'
 import  { Container } from './styles.js';
 import moment from 'moment';
 
 const ShiftHistory: React.FC = (props) => {
-    const [shifts, setShifts] = useState([]);
+  const { data: session } = useSession()
+  const userId = session ? session.user?.id : ''
+  const [shifts, setShifts] = useState([]);
   
-    useEffect(() => {
-      async function loadShifts() {
-        const response = await fetch(`http://localhost:3000/api/ShiftHistory/ShiftHistoryByUser`)
-        const data = await response.json()
-          
-        const shiftHistoryArray = [...shifts];
-  
-        data.map((shift: any) => shiftHistoryArray.push(shift));
-  
-        setShifts(shiftHistoryArray);
-      }
-      loadShifts();
-    }, []);
+  useEffect(() => {
+    async function loadShifts() {
+      const response = await fetch(`http://localhost:3000/api/ShiftHistory/ShiftHistoryByUser?userId=${userId}`)
+      const data = await response.json()
+        
+      const shiftHistoryArray = [...shifts];
+
+      data.map((shift: any) => shiftHistoryArray.push(shift));
+ 
+      setShifts(shiftHistoryArray);
+    }
+    loadShifts();
+  }, [userId]);
 
 
     return (
