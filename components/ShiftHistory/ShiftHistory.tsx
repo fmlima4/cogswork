@@ -12,7 +12,6 @@ const ShiftHistory: React.FC = (props) => {
   useEffect(() => {
     async function loadUser() {
       const session = await getSession()
-      console.log(session)
       setUserId(session ? session.user.id : '')
     }
     loadUser();

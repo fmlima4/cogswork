@@ -16,7 +16,6 @@ const ShitTimer = () => {
   useEffect(() => {
     async function loadUser() {
       const session = await getSession()
-      console.log(session)
       setUserId(session ? session.user.id : '')
     }
     loadUser();
@@ -83,7 +82,6 @@ const ShitTimer = () => {
       body: JSON.stringify(data),
     })
 
-    console.log(response);
     setSeed(seconds)
   }
 
